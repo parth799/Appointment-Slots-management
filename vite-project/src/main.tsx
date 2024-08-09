@@ -8,6 +8,8 @@ import AppointmentForm from './components/AppointmentForm/AppointmentForm';
 import AppointmentsList from './components/AppointmentList/AppointmentList';
 import GroupNavbar from './components/Group/Group';
 import AppointementSlote from './components/AppointementSlote/AppointementSlote';
+import { Provider } from 'react-redux';
+import store from './Redux/store';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 );

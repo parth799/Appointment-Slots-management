@@ -6,13 +6,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { NavLink } from 'react-router-dom';
 import { Home } from '@mui/icons-material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { createAppointment } from '../../Redux/Slice/appointmentSlice';
 
 const AppointmentForm: React.FC = () => {
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
@@ -23,6 +24,7 @@ const AppointmentForm: React.FC = () => {
   const [duration, setDuration] = useState<number>(15);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async () => {
     if (!date) {
@@ -54,23 +56,11 @@ const AppointmentForm: React.FC = () => {
       duration,
     };
 
-    try {
-      const response = await axios.post('http://localhost:5157/appointments', data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.status === 201) {
-        toast.success('Appointment slots created successfully.');
-        navigate("/list-appointments");
-      } else {
-        toast.error('Error creating appointment slots.');
+    dispatch(createAppointment({ date, startTime, endTime, capacity, duration, bulkSlot })).then((result: ReturnType<typeof createAppointment.fulfilled>) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        navigate('/list-appointments');
       }
-    } catch (error) {
-      console.error('Error creating appointment slots:', error);
-      toast.error('Error creating appointment slots.');
-    }
+    });
   };
 
   const shouldDisableDate = (date: any) => {
