@@ -14,12 +14,10 @@ import { fetchAppointments, deleteAppointment, setSearchTerm, setSelectedDate } 
 const AppointmentsList: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { filteredRows, searchTerm, selectedDate, status } = useSelector((state:any) => state.appointmentList);
+  const { filteredRows, searchTerm, selectedDate } = useSelector((state:any) => state.appointmentList);
   useEffect(() => {
-    if (status === 'idle') {
       dispatch(fetchAppointments());
-    }
-  }, [dispatch, status]);
+  }, [dispatch]);
 
   // useEffect(() => {
   //   filterRows();
@@ -30,7 +28,7 @@ const AppointmentsList: React.FC = () => {
   };
 
   const shouldDisableDate = (date: any) => {
-    const today = new Date();
+    const today = new Date();0
     today.setHours(0, 0, 0, 0);
     return date < today;
   };

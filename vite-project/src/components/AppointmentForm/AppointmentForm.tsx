@@ -56,7 +56,7 @@ const AppointmentForm: React.FC = () => {
       duration,
     };
 
-    dispatch(createAppointment({ date, startTime, endTime, capacity, duration, bulkSlot })).then((result: ReturnType<typeof createAppointment.fulfilled>) => {
+    dispatch(createAppointment({ date, startTime, endTime, capacity, duration, bulkSlot })).then((result:any) => {
       if (result.meta.requestStatus === 'fulfilled') {
         navigate('/list-appointments');
       }
@@ -70,6 +70,7 @@ const AppointmentForm: React.FC = () => {
   };
 
   const handleCancel = () => {
+    // state
     setStartTime(null);
     setEndTime(null);
     setCapacity(0);

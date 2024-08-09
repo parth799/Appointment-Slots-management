@@ -26,7 +26,7 @@ const initialState: AppointmentState = {
   error: null,
 };
 
-export const createAppointment = createAsyncThunk(
+export const createAppointment:any = createAsyncThunk(
   'appointment/createAppointment',
   async (data: Omit<AppointmentState, 'status' | 'error'>, { rejectWithValue }) => {
     try {

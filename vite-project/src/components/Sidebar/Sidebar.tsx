@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
             </ListItemButton>
             <Collapse in={openOrganizations} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <NavLink to="/groups" className="block p-2 rounded pl-8 hover:bg-cyan-100 items-center">
+                <NavLink to="/groups" className="flex p-2 rounded pl-8 hover:bg-cyan-100 items-center">
                   <ListItemIcon><Group /></ListItemIcon>
                   <ListItemText primary="Groups" />
                 </NavLink>
@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
             </ListItemButton>
             <Collapse in={openLabs} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <NavLink to="/tests" className="block p-2 rounded pl-8 hover:bg-cyan-100 items-center">
+                <NavLink to="/tests" className="flex p-2 rounded pl-8 hover:bg-cyan-100 items-center">
                   <ListItemIcon><Science /></ListItemIcon>
                   <ListItemText primary="Tests" />
                 </NavLink>
@@ -86,7 +86,7 @@ const Sidebar: React.FC = () => {
             </Collapse>
           </div>
         <div className="mt-2">
-          <NavLink to="/exports" className="block p-2 rounded hover:bg-cyan-100 flex items-center">
+          <NavLink to="/exports" className="p-2 rounded hover:bg-cyan-100 flex items-center">
           <ListItemIcon><ImportExport /></ListItemIcon>
           <ListItemText primary="Exports" />
         </NavLink>
@@ -96,11 +96,11 @@ const Sidebar: React.FC = () => {
       
       <div className="mt-auto space-y-1">
         
-        <NavLink to="/support" className="block p-2 rounded hover:bg-cyan-100 flex items-center">
+        <NavLink to="/support" className=" p-2 rounded hover:bg-cyan-100 flex items-center">
           <ListItemIcon><Support /></ListItemIcon>
           <ListItemText primary="Support" />
         </NavLink>
-        <NavLink to="/logout" className="block p-2 rounded hover:bg-cyan-100 flex items-center">
+        <NavLink to="/logout" className="p-2 rounded hover:bg-cyan-100 flex items-center">
           <ListItemIcon><ExitToApp /></ListItemIcon>
           <ListItemText primary="Log Out" />
         </NavLink>
