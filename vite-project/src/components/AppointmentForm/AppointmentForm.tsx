@@ -30,22 +30,22 @@ const AppointmentForm: React.FC = () => {
       return;
     }
     if (!startTime || !endTime) {
-      toast.error('select both start and end times.');
+      toast.error('Please select both start and end times.');
       return;
     }
     if (capacity <= 0) {
-      toast.error('enter a valid seating capacity.');
+      toast.error('Please enter a valid seating capacity.');
       return;
     }
     if (duration <= 0) {
-      toast.error('select a valid duration!');
+      toast.error('Please select a valid duration.');
       return;
     }
-    if ( endTime <= startTime) {
-      toast.error('End time must be greater than start time!');
+    if (startTime > endTime) {
+      toast.error('End time must be greater than start time.');
+      return;
     }
 
-    
     const data = {
       date: date?.toISOString(),
       startTime: startTime.toISOString(),
@@ -55,26 +55,21 @@ const AppointmentForm: React.FC = () => {
     };
 
     try {
-      console.log(">>>>>>>>>>", data);
-
       const response = await axios.post('http://localhost:5157/appointments', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data);
-      if(response.status === 401 ){
-        toast.error('End time must be grreater than start time!');
-      }else {
-        toast.success('Appointment slots created successfuly!');
-      }
 
-      if (response.status === 201){
-        navigate("/list-appointments")
+      if (response.status === 201) {
+        toast.success('Appointment slots created successfully.');
+        navigate("/list-appointments");
+      } else {
+        toast.error('Error creating appointment slots.');
       }
     } catch (error) {
       console.error('Error creating appointment slots:', error);
-      // toast.error('Error creating appointment slots');
+      toast.error('Error creating appointment slots.');
     }
   };
 
@@ -94,7 +89,7 @@ const AppointmentForm: React.FC = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center p-4 bg-white shadow-md">
+      <nav className="flex justify-between items-center bg-white shadow-md">
         <Typography variant="h4" align="center" gutterBottom className='text-cyan-700'>
           Create Appointment Slots
         </Typography>
@@ -151,94 +146,94 @@ const AppointmentForm: React.FC = () => {
         </Button>
       </nav>
       <br />
-      <Container maxWidth={false}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
-            
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                1. Select Date of Appointment
-              </Typography>
-              <br />
-              <br />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <StaticDatePicker
-                  displayStaticWrapperAs="desktop"
-                  openTo="day"
-                  value={date}
-                  onChange={(newValue) => setDate(newValue)}
-                  shouldDisableDate={shouldDisableDate}
-                />
-              </LocalizationProvider>
-            </Box>
 
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                2. Select Time Range
-              </Typography>
-              <br />
-              <br />
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      label="Start"
-                      value={startTime}
-                      onChange={(newValue) => setStartTime(newValue)}
-                    />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker
-                      label="End"
-                      value={endTime}
-                      onChange={(newValue) => setEndTime(newValue)}
-                    />
-                  </LocalizationProvider>
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography gutterBottom className='fontext-sm'>
-                3. Choose Slot Duration
-              </Typography>
-              <br />
-              <FormControl >
-                <Select
-                  value={duration}
-                  onChange={(e) => setDuration(Number(e.target.value))}
-                >
-                  <MenuItem value={15}>15 minutes</MenuItem>
-                  <MenuItem value={30}>30 minutes</MenuItem>
-                  <MenuItem value={45}>45 minutes</MenuItem>
-                </Select>
-              </FormControl>
-              <br />
-              <br />
-              <br />
-              <Typography gutterBottom className='fontext-sm'>
-                4. Choose Seating Capacity
-              </Typography>
-              <br />
-              <TextField
-                label="Seating Capacity"
-                type="number"
-                value={capacity}
-                onChange={(e) => setCapacity(Number(e.target.value))}
-                inputProps={{ min: 1 }}
+      <Container className='m-0'>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
+          
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              1. Select Date of Appointment
+            </Typography>
+            <br />
+            <br />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <StaticDatePicker
+                displayStaticWrapperAs="desktop"
+                openTo="day"
+                value={date}
+                onChange={(newValue) => setDate(newValue)}
+                shouldDisableDate={shouldDisableDate}
               />
-            </Box>
+            </LocalizationProvider>
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'start', gap: 3, mt: 3 }}>
-            <Button onClick={handleCancel} className='border-2 border-sky-500'>
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleSubmit}>
-              Create Slots
-            </Button>
+          <Box sx={{ flex: 1 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              2. Select Time Range
+            </Typography>
+            <br />
+            <br />
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker
+                    label="Start"
+                    value={startTime}
+                    onChange={(newValue) => setStartTime(newValue)}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker
+                    label="End"
+                    value={endTime}
+                    onChange={(newValue) => setEndTime(newValue)}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
           </Box>
+          <Box sx={{ flex: 1 }}>
+            <Typography gutterBottom className='fontext-sm'>
+              3. Choose Seating Capacity
+            </Typography>
+            <br />
+            <br />
+            <TextField
+              label="Seating Capacity"
+              type="number"
+              value={capacity}
+              onChange={(e) => setCapacity(Number(e.target.value))}
+              inputProps={{ min: 1 }}
+            />
+            <br />
+            <br />
+            <br />
+            <Typography gutterBottom className='fontext-sm'>
+              4. Choose Slot Duration
+            </Typography>
+            <br />
+            <FormControl >
+              <Select
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value))}
+              >
+                <MenuItem value={15}>15 minutes</MenuItem>
+                <MenuItem value={30}>30 minutes</MenuItem>
+                <MenuItem value={45}>45 minutes</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', justifyContent: 'start', gap: 3, mt: 3 }}>
+          <Button onClick={handleCancel} className='border-2 border-sky-500'>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Create Slots
+          </Button>
         </Box>
       </Container>
     </>
