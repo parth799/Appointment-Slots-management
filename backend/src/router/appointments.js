@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
   // console.log("---------->>>>.",((endTime).getTime() - (startTime).getTime()));
   
   const totalSlots = Math.floor((new Date(endTime).getTime() - new Date(startTime).getTime()) / slotDuration);
-  // console.log("///////////////", totalSlots)
+  console.log("///////////////", totalSlots)
   const baseCapacity = Math.floor(capacity / totalSlots);
   console.log("-------", baseCapacity)
   let remainingCapacity = capacity % totalSlots;
@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
  console.log("currentStart", currentStart)
   for (let i = 0; i < totalSlots; i++) {
     const currentEnd = new Date(currentStart.getTime() + slotDuration);
+    console.log("currentEnd", currentEnd)
     if (currentEnd > new Date(endTime)) {
       break;
     }
